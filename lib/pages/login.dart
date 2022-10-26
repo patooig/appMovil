@@ -74,7 +74,7 @@ class _loginState extends State<login> {
               SizedBox(
                 width: 100,
                 height: 100,
-                child: Image.asset('usuario.png', fit: BoxFit.fill),
+                child: Image.asset('assets/usuario.png', fit: BoxFit.fill),
               ),
               sizedBox,
               TextField(
