@@ -26,6 +26,9 @@ class _PrincipalState extends State<Principal> {
               ),
               child: Image.asset('assets/usuario.png', fit: BoxFit.contain),
             ),
+            Center(
+              child: Text('Bienvenid@, ' + Global.login),
+            ),
             ListTile(
               title: const Text('Agregar'),
               onTap: () {

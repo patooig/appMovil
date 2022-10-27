@@ -20,15 +20,15 @@ class _loginState extends State<login> {
   TextEditingController passwordController = TextEditingController();
 
   Future<void> validarDatos(String email, String password) async {
-    //final response = await LoginService().validar(email, password);
+    final response = await LoginService().validar(email, password);
 
-    if ("pato" == email && "123" == password) {
+    /*if ("pato" == email && "123" == password) {
       print("OLA");
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const Principal()));
     }
-
-    /*if (response.statusCode == 200) {
+    */
+    if (response.statusCode == 200) {
       //almacenar de alguna manera el login
 
       await pref.setString('usuario', email);
@@ -44,7 +44,7 @@ class _loginState extends State<login> {
         text: 'El pepe ete sech',
         loopAnimation: false,
       );
-    }*/
+    }
   }
 
   String? login_guardado = "";
@@ -53,7 +53,7 @@ class _loginState extends State<login> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //cargaPreferencia();
+    cargaPreferencia();
   }
 
   void cargaPreferencia() async {
