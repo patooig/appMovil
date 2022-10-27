@@ -24,7 +24,7 @@ class _PrincipalState extends State<Principal> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: Image.asset('usuario.png', fit: BoxFit.contain),
+              child: Image.asset('assets/usuario.png', fit: BoxFit.contain),
             ),
             ListTile(
               title: const Text('Agregar'),
