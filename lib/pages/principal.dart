@@ -68,7 +68,14 @@ class _PrincipalState extends State<Principal> {
           future: obtDatos(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return ListView(children: []);
+              return ListView.builder(
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                        title: Text(
+                      snapshot.data![index].titulo,
+                    ));
+                  });
             } else if (snapshot.hasError) {
               return const Text("ERROR");
             }
