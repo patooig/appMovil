@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:demo_login/pages/ingreso.dart';
 import 'package:flutter/material.dart';
 
 import '../global.dart';
@@ -63,6 +64,7 @@ class _PrincipalState extends State<Principal> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Supermensajes'),
+        backgroundColor: Colors.cyan,
       ),
       body: FutureBuilder<List<dynamic>>(
           future: obtDatos(),
@@ -83,6 +85,18 @@ class _PrincipalState extends State<Principal> {
               child: CircularProgressIndicator(),
             );
           }),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Increment',
+        backgroundColor: Colors.cyan,
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Ingreso()));
+        },
+        child: const Icon(
+          Icons.message,
+          color: Colors.white,
+        ),
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -103,6 +117,8 @@ class _PrincipalState extends State<Principal> {
                 // ...
                 // Then close the drawer
                 Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Ingreso()));
               },
             ),
             ListTile(

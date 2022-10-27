@@ -34,14 +34,15 @@ class _loginState extends State<login> {
       await pref.setString('usuario', email);
 
       Global.login = email;
+
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Principal()));
     } else {
       CoolAlert.show(
         context: context,
         type: CoolAlertType.error,
-        title: 'Oops...',
-        text: 'El pepe ete sech',
+        title: 'Ups...',
+        text: 'El nombre de usuario y/o contraseña no es válido',
         loopAnimation: false,
       );
     }
