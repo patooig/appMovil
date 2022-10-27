@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 import '../global.dart';
 import 'package:demo_login/pages/login.dart';
+import 'package:http/http.dart' as http;
 
 class Principal extends StatefulWidget {
   const Principal({super.key});
@@ -11,11 +15,69 @@ class Principal extends StatefulWidget {
 }
 
 class _PrincipalState extends State<Principal> {
+  Future<MensajesApi> obtDatos() async {
+    List<Map<String, dynamic>> _map = [];
+    var url = Uri.parse("https://40fd422c6d4d.sa.ngrok.io/api/mensajes");
+    final rep = await http.get(url);
+    if (rep.statusCode == 200) {
+      return json.decode(rep.body);
+    } else {
+      throw Exception("Fallo al obtener datos");
+    }
+  }
+
+  Widget cuadro_indicador(
+      DateTime fecha, String? login, String? titulo, String? texto) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        width: double.infinity,
+        height: 100,
+        padding: const EdgeInsets.all(2),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: LinearGradient(colors: [
+              Colors.green,
+              Colors.green[200]!,
+            ])),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Column(
+                children: [
+                  Text(fecha.toString()),
+                  Text(login.toString()),
+                  Text(titulo.toString()),
+                  Text(texto.toString())
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(),
+      appBar: AppBar(
+        title: const Text('Supermensajes'),
+      ),
+      body: SingleChildScrollView(
+          child: FutureBuilder<MensajesApi>(
+              future: obtDatos(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                } else if (snapshot.hasError) {
+                  return const Text("ERROR");
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              })),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -63,4 +125,36 @@ class _PrincipalState extends State<Principal> {
       ),
     );
   }
+}
+
+class MensajesApi {
+  MensajesApi({
+    required this.id,
+    required this.login,
+    required this.titulo,
+    required this.texto,
+    required this.fecha,
+  });
+
+  int id;
+  String login;
+  String titulo;
+  String texto;
+  DateTime fecha;
+
+  factory MensajesApi.fromJson(Map<String, dynamic> json) => MensajesApi(
+        id: json["id"],
+        login: json["login"],
+        titulo: json["titulo"],
+        texto: json["texto"],
+        fecha: DateTime.parse(json["fecha"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "login": login,
+        "titulo": titulo,
+        "texto": texto,
+        "fecha": fecha.toIso8601String(),
+      };
 }
