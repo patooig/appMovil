@@ -67,6 +67,7 @@ class _loginState extends State<login> {
   Widget build(BuildContext context) {
     const sizedBox = const SizedBox(height: 30);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(50),

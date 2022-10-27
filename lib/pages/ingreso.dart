@@ -11,7 +11,10 @@ class _IngresoState extends State<Ingreso> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Agregar mensajes')),
+      appBar: AppBar(
+        title: const Text('Agregar mensajes'),
+        backgroundColor: Colors.cyan,
+      ),
       body: Column(children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(16.0),

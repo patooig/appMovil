@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:demo_login/pages/ingreso.dart';
+import 'package:demo_login/pages/integrantes.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import '../global.dart';
 import 'package:demo_login/pages/login.dart';
 import 'package:http/http.dart' as http;
@@ -14,19 +15,25 @@ class Principal extends StatefulWidget {
 }
 
 class _PrincipalState extends State<Principal> {
-  Future<List<dynamic>> obtDatos() async {
+  List<MensajesApi> parseMensajes(String responseBody) {
+    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<MensajesApi>((json) => MensajesApi.fromJson(json))
+        .toList();
+  }
+
+  Future<List<MensajesApi>> obtDatos() async {
     var url = Uri.parse("https://40fd422c6d4d.sa.ngrok.io/api/mensajes");
     final rep = await http.get(url);
     if (rep.statusCode == 200) {
-      final List<dynamic> dataList = jsonDecode(rep.body);
-      return dataList;
+      return parseMensajes(rep.body);
     } else {
       throw Exception("Fallo al obtener datos");
     }
   }
 
   Widget cuadro_indicador(
-      DateTime fecha, String? login, String? titulo, String? texto) {
+      DateTime fecha, String login, String titulo, String texto) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Container(
@@ -47,9 +54,9 @@ class _PrincipalState extends State<Principal> {
               child: Column(
                 children: [
                   Text(fecha.toString()),
-                  Text(login.toString()),
-                  Text(titulo.toString()),
-                  Text(texto.toString())
+                  Text(login),
+                  Text(titulo),
+                  Text(texto)
                 ],
               ),
             ),
@@ -66,18 +73,30 @@ class _PrincipalState extends State<Principal> {
         title: const Text('Supermensajes'),
         backgroundColor: Colors.cyan,
       ),
-      body: FutureBuilder<List<dynamic>>(
+      body: FutureBuilder<List<MensajesApi>>(
           future: obtDatos(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               AsyncSnapshot<List> ls = snapshot;
               List<MensajesApi>? lll = ls.data?.cast<MensajesApi>();
-              for (int i = 0; i < lll!.length; i++) {
-                print((date) => lll[i].fecha);
-                print((String) => lll[i].login);
-                print((String) => lll[i].titulo);
-                print((String) => lll[i].texto);
-              }
+              ListView.builder(
+                itemCount: lll?.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return (SizedBox(
+                    height: 50,
+                    child: Center(
+                      child: Text('${lll![index]}'),
+                    ),
+                  ));
+                },
+              );
+              /*AsyncSnapshot<List> ls = snapshot;
+              List<MensajesApi>? lll = ls.data?.cast<MensajesApi>();
+              */
+              /*for (int i = 0; i < lll!.length; i++) {
+                cuadro_indicador(
+                    lll[i].fecha, lll[i].login, lll[i].titulo, lll[i].texto);
+              }*/
             } else if (snapshot.hasError) {
               return const Text("ERROR");
             }
@@ -86,7 +105,7 @@ class _PrincipalState extends State<Principal> {
             );
           }),
       floatingActionButton: FloatingActionButton(
-        tooltip: 'Increment',
+        tooltip: 'Mensajes',
         backgroundColor: Colors.cyan,
         onPressed: () {
           Navigator.push(context,
@@ -128,6 +147,10 @@ class _PrincipalState extends State<Principal> {
                 // ...
                 // Then close the drawer
                 Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Integrantes()));
               },
             ),
             ListTile(
