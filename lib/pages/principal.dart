@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 
 import '../global.dart';
@@ -15,12 +13,12 @@ class Principal extends StatefulWidget {
 }
 
 class _PrincipalState extends State<Principal> {
-  Future<MensajesApi> obtDatos() async {
-    List<Map<String, dynamic>> _map = [];
+  Future<List<dynamic>> obtDatos() async {
     var url = Uri.parse("https://40fd422c6d4d.sa.ngrok.io/api/mensajes");
     final rep = await http.get(url);
     if (rep.statusCode == 200) {
-      return json.decode(rep.body);
+      final List<dynamic> dataList = jsonDecode(rep.body);
+      return dataList;
     } else {
       throw Exception("Fallo al obtener datos");
     }
@@ -66,18 +64,18 @@ class _PrincipalState extends State<Principal> {
       appBar: AppBar(
         title: const Text('Supermensajes'),
       ),
-      body: SingleChildScrollView(
-          child: FutureBuilder<MensajesApi>(
-              future: obtDatos(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                } else if (snapshot.hasError) {
-                  return const Text("ERROR");
-                }
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              })),
+      body: FutureBuilder<List<dynamic>>(
+          future: obtDatos(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView(children: []);
+            } else if (snapshot.hasError) {
+              return const Text("ERROR");
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
