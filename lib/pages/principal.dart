@@ -68,14 +68,14 @@ class _PrincipalState extends State<Principal> {
           future: obtDatos(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                        title: Text(
-                      snapshot.data![index].titulo,
-                    ));
-                  });
+              AsyncSnapshot<List> ls = snapshot;
+              List<MensajesApi>? lll = ls.data?.cast<MensajesApi>();
+              for (int i = 0; i < lll!.length; i++) {
+                print((date) => lll[i].fecha);
+                print((String) => lll[i].login);
+                print((String) => lll[i].titulo);
+                print((String) => lll[i].texto);
+              }
             } else if (snapshot.hasError) {
               return const Text("ERROR");
             }
