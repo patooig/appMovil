@@ -15,8 +15,29 @@ class _IntegrantesState extends State<Integrantes> {
         title: const Text('Integrantes'),
         backgroundColor: Colors.cyan,
       ),
-      body:
-          Column(children: [Text('Ivonne Flores'), Text('Patricio Inostroza')]),
+      body: SingleChildScrollView(
+          child: Center(
+        child: Column(children: [
+          Image.asset(
+            'assets/Ivonne.png',
+            width: 230,
+            height: 230,
+          ),
+          Text(
+            'Ivonne Flores R.',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Image.asset(
+            'assets/Pato.jpeg',
+            width: 230,
+            height: 230,
+          ),
+          Text(
+            'Patricio Inostroza A.',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          )
+        ]),
+      )),
     );
   }
 }
