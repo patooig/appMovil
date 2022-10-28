@@ -48,7 +48,12 @@ class _PrincipalState extends State<Principal> {
           children: [
             Center(
               child: Column(
-                children: [Text(fecha), Text(login), Text(titulo), Text(texto)],
+                children: [
+                  Text('Fecha: ' + fecha),
+                  Text('Login: ' + login),
+                  Text('Titulo: ' + titulo),
+                  Text('Texto: ' + texto)
+                ],
               ),
             ),
           ],
