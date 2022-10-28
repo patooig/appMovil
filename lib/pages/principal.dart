@@ -33,31 +33,22 @@ class _PrincipalState extends State<Principal> {
   }
 
   Widget cuadro_indicador(
-      DateTime fecha, String login, String titulo, String texto) {
+      String fecha, String login, String titulo, String texto) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Container(
         width: double.infinity,
-        height: 100,
+        height: 200,
         padding: const EdgeInsets.all(2),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: LinearGradient(colors: [
-              Colors.green,
-              Colors.green[200]!,
-            ])),
+            borderRadius: BorderRadius.circular(10), color: Colors.cyan[100]),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
               child: Column(
-                children: [
-                  Text(fecha.toString()),
-                  Text(login),
-                  Text(titulo),
-                  Text(texto)
-                ],
+                children: [Text(fecha), Text(login), Text(titulo), Text(texto)],
               ),
             ),
           ],
@@ -77,20 +68,20 @@ class _PrincipalState extends State<Principal> {
           future: obtDatos(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              AsyncSnapshot<List> ls = snapshot;
+              AsyncSnapshot<List<MensajesApi>> ls = snapshot;
               List<MensajesApi>? lll = ls.data?.cast<MensajesApi>();
-              ListView.builder(
-                itemCount: lll?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return (SizedBox(
-                    height: 50,
-                    child: Center(
-                      child: Text('${lll![index]}'),
-                    ),
-                  ));
-                },
-              );
-              /*AsyncSnapshot<List> ls = snapshot;
+
+              return SingleChildScrollView(
+                controller: null,
+                child: Column(children: [
+                  for (int i = 0; i < lll!.length; i++)
+                    cuadro_indicador(
+                        lll!.elementAt(i).fecha,
+                        lll!.elementAt(i).login,
+                        lll!.elementAt(i).texto,
+                        lll!.elementAt(i).titulo)
+                ]),
+              ); /*AsyncSnapshot<List> ls = snapshot;
               List<MensajesApi>? lll = ls.data?.cast<MensajesApi>();
               */
               /*for (int i = 0; i < lll!.length; i++) {
@@ -184,14 +175,14 @@ class MensajesApi {
   String login;
   String titulo;
   String texto;
-  DateTime fecha;
+  String fecha;
 
   factory MensajesApi.fromJson(Map<String, dynamic> json) => MensajesApi(
         id: json["id"],
         login: json["login"],
         titulo: json["titulo"],
         texto: json["texto"],
-        fecha: DateTime.parse(json["fecha"]),
+        fecha: (json["fecha"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -199,6 +190,6 @@ class MensajesApi {
         "login": login,
         "titulo": titulo,
         "texto": texto,
-        "fecha": fecha.toIso8601String(),
+        "fecha": fecha,
       };
 }
