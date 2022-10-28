@@ -20,22 +20,25 @@ class _IntegrantesState extends State<Integrantes> {
         child: Column(children: [
           Image.asset(
             'assets/Ivonne.png',
-            width: 230,
-            height: 230,
+            width: 200,
+            height: 200,
           ),
           Text(
             'Ivonne Flores R.',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
+          Text('ivflores2017@udec.cl'),
+          SizedBox(height: 20),
           Image.asset(
             'assets/Pato.jpeg',
-            width: 230,
-            height: 230,
+            width: 200,
+            height: 200,
           ),
           Text(
             'Patricio Inostroza A.',
             style: TextStyle(fontWeight: FontWeight.bold),
-          )
+          ),
+          Text('pinostroza2017@udec.cl')
         ]),
       )),
     );
