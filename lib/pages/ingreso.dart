@@ -1,6 +1,8 @@
+import 'package:demo_login/pages/principal.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cool_alert/cool_alert.dart';
 import 'package:demo_login/services/ingresoService.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Ingreso extends StatefulWidget {
   const Ingreso({super.key});
@@ -12,6 +14,19 @@ class Ingreso extends StatefulWidget {
 class _IngresoState extends State<Ingreso> {
   TextEditingController titulo = TextEditingController();
   TextEditingController texto = TextEditingController();
+
+  Future<void> validarDatos(String titulo, String texto) async {
+    final response = await ingDatos().ingresarDatos(titulo, texto);
+    if (response.statusCode == 200) {
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.confirm,
+        title: 'Ingreso Correcto',
+        text: 'Se ingresaron los datos',
+        loopAnimation: false,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +50,38 @@ class _IngresoState extends State<Ingreso> {
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: "Texto"),
               maxLines: 1,
-              controller: titulo,
+              controller: texto,
             )),
         ElevatedButton(
           onPressed: () {
-            //a.ingresarDatos(titulo.toString(), texto.toString());
+            if (titulo.text.length == 0) {
+              Fluttertoast.showToast(
+                  msg: "Ingrese titulo",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.TOP,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            }
+            if (texto.text.length == 0) {
+              Fluttertoast.showToast(
+                  msg: "Ingrese una descripción",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.TOP,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            } else {
+              validarDatos(titulo.text, texto.text);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Principal()));
+            }
           },
           child: const Text('Guardar'),
-        )
+        ),
       ]),
     );
   }
-}
-
-Future<void> validarDatos(String titulo, String texto) async {
-  final response = await ingDatos().ingresarDatos(titulo, texto);
 }

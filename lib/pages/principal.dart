@@ -38,7 +38,7 @@ class _PrincipalState extends State<Principal> {
         padding: const EdgeInsets.all(16.0),
         child: Container(
             width: double.infinity,
-            height: 100 + (titulo.length / 10) * 4,
+            height: 100 + (titulo.length / 10 + texto.length / 10) * 4.2,
             padding: const EdgeInsets.all(15),
             alignment: Alignment.center,
             decoration: BoxDecoration(
@@ -173,15 +173,10 @@ class _PrincipalState extends State<Principal> {
             ListTile(
               title: const Text('Salir'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (BuildContext context) {
                   return login();
                 }));
-                /*Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const login()));*/
               },
             )
           ],
