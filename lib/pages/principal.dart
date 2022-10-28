@@ -51,24 +51,27 @@ class _PrincipalState extends State<Principal> {
                 children: [
                   Row(
                     children: [
-                      Text('Fecha: ',
+                      const Text('Fecha: ',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(fecha.substring(0, 10) +
-                          ' ' +
+                          '  ' +
                           fecha.substring(11, 16))
                     ],
                   ),
                   Row(
                     children: [
-                      Text('Login: ',
+                      const Text('Login: ',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(login)
                     ],
                   ),
                   Row(
                     children: [
-                      Text('Titulo: ',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      const Text(
+                        'Titulo: ',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left,
+                      ),
                       Flexible(
                         child: Text(titulo),
                       )
@@ -173,9 +176,12 @@ class _PrincipalState extends State<Principal> {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const login()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return login();
+                }));
+                /*Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const login()));*/
               },
             )
           ],

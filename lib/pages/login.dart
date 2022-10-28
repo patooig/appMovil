@@ -22,12 +22,6 @@ class _loginState extends State<login> {
   Future<void> validarDatos(String email, String password) async {
     final response = await LoginService().validar(email, password);
 
-    /*if ("pato" == email && "123" == password) {
-      print("OLA");
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const Principal()));
-    }
-    */
     if (response.statusCode == 200) {
       //almacenar de alguna manera el login
 
