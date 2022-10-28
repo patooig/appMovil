@@ -35,31 +35,55 @@ class _PrincipalState extends State<Principal> {
   Widget cuadro_indicador(
       String fecha, String login, String titulo, String texto) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Container(
-        width: double.infinity,
-        height: 200,
-        padding: const EdgeInsets.all(2),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Colors.cyan[100]),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Column(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+            width: double.infinity,
+            height: 100 + (titulo.length / 10) * 4,
+            padding: const EdgeInsets.all(15),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.lime[100]),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Center(
+                  child: Column(
                 children: [
-                  Text('Fecha: ' + fecha),
-                  Text('Login: ' + login),
-                  Text('Titulo: ' + titulo),
-                  Text('Texto: ' + texto)
+                  Row(
+                    children: [
+                      Text('Fecha: ',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(fecha.substring(0, 10) +
+                          ' ' +
+                          fecha.substring(11, 16))
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text('Login: ',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(login)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text('Titulo: ',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Flexible(
+                        child: Text(titulo),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('Descripción: ',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Flexible(child: Text(texto))
+                    ],
+                  ),
                 ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+              )),
+            ])));
   }
 
   @override
@@ -81,18 +105,12 @@ class _PrincipalState extends State<Principal> {
                 child: Column(children: [
                   for (int i = 0; i < lll!.length; i++)
                     cuadro_indicador(
-                        lll!.elementAt(i).fecha,
-                        lll!.elementAt(i).login,
-                        lll!.elementAt(i).texto,
-                        lll!.elementAt(i).titulo)
+                        lll.elementAt(i).fecha,
+                        lll.elementAt(i).login,
+                        lll.elementAt(i).texto,
+                        lll.elementAt(i).titulo)
                 ]),
-              ); /*AsyncSnapshot<List> ls = snapshot;
-              List<MensajesApi>? lll = ls.data?.cast<MensajesApi>();
-              */
-              /*for (int i = 0; i < lll!.length; i++) {
-                cuadro_indicador(
-                    lll[i].fecha, lll[i].login, lll[i].titulo, lll[i].texto);
-              }*/
+              );
             } else if (snapshot.hasError) {
               return const Text("ERROR");
             }

@@ -32,12 +32,9 @@ class _IngresoState extends State<Ingreso> {
             maxLines: 1,
           ),
         ),
-        TextButton(
-          style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-          ),
+        ElevatedButton(
           onPressed: () {},
-          child: Text('TextButton'),
+          child: const Text('Guardar'),
         )
       ]),
     );
